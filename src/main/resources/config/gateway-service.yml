@@ -1,0 +1,67 @@
+server:
+  port: 8091
+  error:
+    include-stacktrace: NEVER
+    include-message: ALWAYS
+  
+
+logging:
+  pattern:
+    file: "%d %p %c{1.} [%t] %m%n"
+    console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+  file: app.log
+  
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8092/eureka/
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: user-services
+        url: /user-services/api-docs
+      - name: hotel-services
+        url: /hotel-services/api-docs
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          "[/**]":
+            allowed-origins: "*"
+            allowed-methods: "*"
+            allowed-headers: "*" 
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user-services
+          uri: lb://user-services
+          predicates:
+            - Path=/user-services/**
+          filters:
+            - RewritePath=/user-services/(?<path>.*), /$\{path}
+            # - name: AuthenticationFilter
+        - id: hotel-services
+          uri: lb://hotel-services
+          predicates:
+            - Path=/hotel-services/**
+          filters:
+            - RewritePath=/hotel-services/(?<path>.*), /$\{path}
+            # - name: AuthenticationFilter
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
