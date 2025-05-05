@@ -26,3 +26,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8092/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+    instanceId: ${eureka.instance.hostname}:${server.port}
