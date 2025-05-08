@@ -25,3 +25,8 @@ hotel.booking.config/
 ├── pom.xml
 └── README.md
 ```
+
+### Prerequisites
+
+- Java 21
+- Maven 3.6+
