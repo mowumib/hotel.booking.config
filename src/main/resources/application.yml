@@ -5,3 +5,11 @@ spring:
         active: native
     application:
         name: config-service
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

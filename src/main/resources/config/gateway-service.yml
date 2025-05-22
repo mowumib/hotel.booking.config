@@ -18,7 +18,8 @@ logging:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8092/eureka/
+      defaultZone: http://discovery-ms:8092/eureka/
+
   instance:
     hostname: localhost
     prefer-ip-address: false
@@ -27,8 +28,8 @@ eureka:
 springdoc:
   swagger-ui:
     urls:
-      - name: user-services
-        url: /user-services/api-docs
+      - name: hotel-services
+        url: /hotel-services/api-docs
     groups-order: DESC
     operationsSorter: method
     disable-swagger-default-url: true
@@ -49,12 +50,12 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: user-services
-          uri: lb://user-services
+        - id: hotel-services
+          uri: lb://hotel-services
           predicates:
-            - Path=/user-services/**
+            - Path=/hotel-services/**
           filters:
-            - RewritePath=/user-services/(?<path>.*), /$\{path}
+            - RewritePath=/hotel-services/(?<path>.*), /$\{path}
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:

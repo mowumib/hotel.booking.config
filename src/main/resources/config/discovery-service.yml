@@ -3,9 +3,18 @@ server:
   
 eureka:
   instance:
-    hostname: localhost
+    hostname: discovery-ms
   client:
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
-      defaultZone: http://localhost:8092/eureka/
+      defaultZone: http://discovery-ms:8092/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
