@@ -1,15 +1,22 @@
 server:
-    port: 8098
+  port: 8098
 spring:
-    profiles:
-        active: native
-    application:
-        name: config-service
+  profiles:
+    active: native
+  application:
+    name: config-service
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+  health:
+    readiness:
+      enabled: true
+    liveness:
+      enabled: true
   endpoint:
     health:
+      probes:
+        enabled: true
       show-details: always
