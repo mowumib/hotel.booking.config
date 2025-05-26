@@ -19,15 +19,16 @@ spring:
     show-sql: "true"
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/hotel-services
+    url: jdbc:mysql://hotel-services-db:3306/hotel-services-db?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: admin
 
 eureka:
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8092/eureka/
-  instance:
-    hostname: localhost
-    prefer-ip-address: false
-    instanceId: ${eureka.instance.hostname}:${server.port}
+      defaultZone: http://localhost:8092/eureka/  # OVERRIDDEN BY THE DOCKER COMPOSE
+  # instance:
+  #   prefer-ip-address: true
+  #   instance-id: ${spring.application.name}:${random.uuid}

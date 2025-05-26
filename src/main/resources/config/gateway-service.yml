@@ -4,7 +4,6 @@ server:
     include-stacktrace: NEVER
     include-message: ALWAYS
   
-
 logging:
   pattern:
     file: "%d %p %c{1.} [%t] %m%n"
@@ -17,12 +16,14 @@ logging:
   
 eureka:
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8092/eureka/
-  instance:
-    hostname: localhost
-    prefer-ip-address: false
-    instanceId: ${eureka.instance.hostname}:${server.port}
+      defaultZone: http://localhost:8092/eureka/ # OVERRIDDEN BY THE DOCKER COMPOSE
+  # instance:
+  #   hostname: localhost
+  #   prefer-ip-address: false
+  #   instanceId: ${eureka.instance.hostname}:${server.port}
 
 springdoc:
   swagger-ui:
@@ -36,15 +37,6 @@ springdoc:
 spring:
   cloud:
     gateway:
-      # default-filters:
-      #   - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
-      # globalcors:
-      #   add-to-simple-url-handler-mapping: true
-      #   corsConfigurations:
-      #     "[/**]":
-      #       allowed-origins: "*"
-      #       allowed-methods: "*"
-      #       allowed-headers: "*" 
       discovery:
         locator:
           enabled: true
